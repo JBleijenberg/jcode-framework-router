@@ -23,7 +23,7 @@
 namespace Jcode\Router\Front;
 
 use Jcode\Application;
-use Jcode\Object;
+use Jcode\DataObject;
 use Jcode\Router\Http\Request;
 use Jcode\Router\Http\Response;
 
@@ -33,21 +33,21 @@ class Controller
     /**
      * Store $_POST
      *
-     * @var Object
+     * @var DataObject
      */
     protected $post;
 
     /**
      * Store $_GET
      *
-     * @var Object
+     * @var DataObject
      */
     protected $params;
 
     /**
      * Store $_FILES
      *
-     * @var Object
+     * @var DataObject
      */
     protected $files;
 
@@ -76,11 +76,11 @@ class Controller
     }
 
     /**
-     * @param \Jcode\Object $params
-     * @param \Jcode\Object $post
-     * @param \Jcode\Object $files
+     * @param \Jcode\DataObject $params
+     * @param \Jcode\DataObject $post
+     * @param \Jcode\DataObject $files
      */
-    public function preDispatch(Object $params, Object $post, Object $files)
+    public function preDispatch(DataObject $params, DataObject $post, DataObject $files)
     {
         $this->params = $params;
         $this->post = $post;
@@ -90,7 +90,7 @@ class Controller
     /**
      * @param null $key
      *
-     * @return null|Object
+     * @return null|DataObject
      */
     public function getPost($key = null)
     {
@@ -108,7 +108,7 @@ class Controller
     /**
      * return $_GET object
      *
-     * @return Object
+     * @return DataObject
      */
     public function getParams()
     {

@@ -54,7 +54,7 @@ class Request
     protected $route;
 
     /**
-     * @var \Jcode\Object
+     * @var \Jcode\DataObject
      */
     protected $module;
 
@@ -132,16 +132,16 @@ class Request
                             if (method_exists($controller, $action)) {
                                 $this->route = sprintf('%s/%s/%s', $this->frontName, $this->controller, $this->action);
 
-                                /* @var \Jcode\Object $get */
-                                $get = Application::objectManager()->get('Jcode\Object');
+                                /* @var \Jcode\DataObject $get */
+                                $get = Application::objectManager()->get('Jcode\DataObject');
                                 $get->importArray($_GET);
 
-                                /* @var \Jcode\Object $post */
-                                $post = Application::objectManager()->get('Jcode\Object');
+                                /* @var \Jcode\DataObject $post */
+                                $post = Application::objectManager()->get('Jcode\DataObject');
                                 $post->importArray($_POST);
 
-                                /* @var \Jcode\Object $files */
-                                $files = Application::objectManager()->get('Jcode\Object');
+                                /* @var \Jcode\DataObject $files */
+                                $files = Application::objectManager()->get('Jcode\DataObject');
                                 $files->importArray($_FILES);
 
                                 $controller->preDispatch($get, $post, $files);
@@ -273,7 +273,7 @@ class Request
     /**
      * Return currently used module
      *
-     * @return \Jcode\Object
+     * @return \Jcode\DataObject
      */
     public function getModule()
     {
