@@ -96,7 +96,7 @@ class Request
          * Chop up the route into frontname, controller and action. Replace blanks by 'index'
          * E.G: /my/page/ would create a route of /my/page/index
          */
-        list($this->frontName, $this->controller, $this->action) = array_pad(explode('/', $route), 3, 'index');
+        list($this->frontName, $this->controller, $this->action) = array_pad(array_filter(explode('/', $route)), 3, 'index');
 
         $this->dispatch($response);
 
