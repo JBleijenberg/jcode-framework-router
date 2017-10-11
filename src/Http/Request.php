@@ -110,6 +110,16 @@ class Request
      */
     public function dispatch(Response $response)
     {
+        if ($this->getConfig()->getForceSsl() && $this->getServer('REQUEST_SCHEME') == 'http') {
+            $location = sprintf('https://%s%s', $this->getServer('HTTP_HOST'), $this->getServer('REQUEST_URI'));
+
+            $response->setLocation($location);
+            $response->setHttpCode(301);
+            $response->dispatch();
+
+            return;
+        }
+        
         /**
          * Load a module by frontname.
          */
