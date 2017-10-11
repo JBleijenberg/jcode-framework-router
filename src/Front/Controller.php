@@ -173,9 +173,9 @@ class Controller
 
             $element = $module->getName()
                 . '::'
-                . ucfirst($request->getController())
-                . '\\'
-                . ucfirst($request->getAction());
+                . $request->getController()
+                . '/'
+                . $request->getAction();
 
             $this->layout = Application::getLayout($element);
         }
