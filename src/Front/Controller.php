@@ -177,7 +177,7 @@ class Controller
                 . '/'
                 . $request->getAction();
 
-            $this->layout = Application::getLayout($element);
+            $this->layout = Application::objectManager()->get('\Jcode\Layout\Layout')->getLayout($element);
         }
 
         return $this->layout;
