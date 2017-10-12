@@ -188,12 +188,10 @@ class Controller
         if ($layout = $this->layout) {
             Application::register('current_layout', $layout);
 
-            if ($root = $layout->getRoot()) {
-                foreach ($root->getItemById('child_html') as $childHtml) {
-                    $childHtml->setCurrentLayout($layout);
+            $root = $layout->getReferenceCollection()->getItemByColumnValue('name', 'root');
 
-                    echo $childHtml->render();
-                }
+            if ($root instanceof DataObject) {
+                Application::objectManager()->get('\Jcode\Layout\Layout')->parseReference($root);
             }
         }
     }
