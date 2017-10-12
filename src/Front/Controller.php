@@ -137,6 +137,14 @@ class Controller
         $this->getResponse()->redirect($location, $params);
     }
 
+    public function noRoute()
+    {
+        $this->loadLayout('noRoute');
+        $this->renderLayout();
+
+        $this->getResponse()->setHttpCode(404);
+    }
+
     /**
      * Forward a user to the given location
      *
@@ -165,17 +173,15 @@ class Controller
         return $this;
     }
 
-    public function loadLayout($block = null, $template = null)
+    public function loadLayout($path = null)
     {
         if (!$this->layout) {
             $request = $this->getRequest();
             $module = $request->getModule();
 
-            $element = $module->getName()
-                . '::'
-                . $request->getController()
-                . '/'
-                . $request->getAction();
+            $element = ($path !== null)
+                ? $path
+                : sprintf('%s::%s/%s', $module->getName(), $request->getController(), $request->getAction());
 
             $this->layout = Application::objectManager()->get('\Jcode\Layout\Layout')->getLayout($element);
         }

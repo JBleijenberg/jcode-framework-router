@@ -160,7 +160,8 @@ class Request
                             } else {
                                 Application::log("Class is loaded, but action is not found");
 
-                                $this->noRoute();
+                                $controller->noRoute();
+                                $controller->postDispatch();
                             }
                         } else {
                             Application::log("{$class} not an instance of \\Jcode\\Router\\Front\\Controler");
