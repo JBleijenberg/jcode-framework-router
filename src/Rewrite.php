@@ -71,7 +71,7 @@ class Rewrite
         $urlRewrite = null;
 
         foreach ($this->rewrites as $rewrite => $destination) {
-            if (preg_match("/{$rewrite}/", $source)) {
+            if (preg_match("/^{$rewrite}$/", $source)) {
                 $urlRewrite = $destination;
             }
         }
