@@ -24,6 +24,7 @@ namespace Jcode\Router\Front;
 
 use Jcode\Application;
 use Jcode\DataObject;
+use Jcode\Model\Helper;
 use Jcode\Router\Http\Request;
 use Jcode\Router\Http\Response;
 
@@ -143,6 +144,22 @@ class Controller
         $this->renderLayout();
 
         $this->getResponse()->setHttpCode(404);
+    }
+
+    public function translate() :string
+    {
+        return $this->getHelper()->translate(func_get_args());
+    }
+
+    /**
+     * Get helper
+     *
+     * @return object|\Jcode\Model\Helper
+     * @throws \Exception
+     */
+    public function getHelper() :Helper
+    {
+        return Application::objectManager()->get('Jcode\Model\Helper');
     }
 
     /**
