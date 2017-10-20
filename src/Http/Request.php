@@ -58,6 +58,8 @@ class Request
      */
     protected $module;
 
+    protected $get = [];
+
     /**
      * Initialize request object
      * Request URI is exploded into <module_key>/<controller_key>/<action_key>
@@ -92,11 +94,34 @@ class Request
             $route = current(explode('?', $route));
         }
 
+        $routeArray = array_pad(array_filter(explode('/', $route)), 3, 'index');
+
         /**
          * Chop up the route into frontname, controller and action. Replace blanks by 'index'
          * E.G: /my/page/ would create a route of /my/page/index
          */
-        list($this->frontName, $this->controller, $this->action) = array_pad(array_filter(explode('/', $route)), 3, 'index');
+        list($this->frontName, $this->controller, $this->action) = $routeArray;
+
+        unset($routeArray[0]);
+        unset($routeArray[1]);
+        unset($routeArray[2]);
+
+        if (!empty($routeArray)) {
+            $args = array_values($routeArray);
+            $name = null;
+
+            if (count($args) === 1) {
+                $this->get = $args;
+            } else {
+                foreach ($args as $key => $value) {
+                    if ($key%2 == 0) {
+                        $name = $value;
+                    } else {
+                        $this->get[$name] = $value;
+                    }
+                }
+            }
+        }
 
         $this->dispatch($response);
 
@@ -144,7 +169,11 @@ class Request
 
                                 /* @var \Jcode\DataObject $get */
                                 $get = Application::objectManager()->get('Jcode\DataObject');
-                                $get->importArray($_GET);
+                                if (!empty($_GET)) {
+                                    $get->importArray($_GET);
+                                } else {
+                                    $get->importArray($this->get);
+                                }
 
                                 /* @var \Jcode\DataObject $post */
                                 $post = Application::objectManager()->get('Jcode\DataObject');
