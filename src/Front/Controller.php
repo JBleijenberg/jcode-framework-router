@@ -95,15 +95,7 @@ class Controller
      */
     public function getPost($key = null)
     {
-        if ($key !== null) {
-            if ($this->post->getData($key)) {
-                return $this->post->getData($key);
-            } else {
-                return null;
-            }
-        } else {
-            return $this->post;
-        }
+        return $this->post->getData($key);
     }
 
     /**
@@ -126,6 +118,11 @@ class Controller
     public function getParam($key)
     {
         return $this->params->getData($key);
+    }
+
+    public function getFirstParam() :string
+    {
+        return $this->params->getData(0);
     }
 
     /**
