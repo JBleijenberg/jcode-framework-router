@@ -195,25 +195,25 @@ class Request
                         } else {
                             Application::log("{$class} not an instance of \\Jcode\\Router\\Front\\Controler");
 
-                            $this->noRoute();
+                            $this->noRoute($response);
                         }
                     } catch (Exception $e) {
                         Application::logException($e);
 
-                        $this->noRoute();
+                        $this->noRoute($response);
                     }
                 } else {
                     Application::log('Module router is defined, but no controller class is set');
 
-                    $this->noRoute();
+                    $this->noRoute($response);
                 }
             } else {
                 Application::log('Module is set, but no router is defined');
 
-                $this->noRoute();
+                $this->noRoute($response);
             }
         } else {
-            $this->noRoute();
+            $this->noRoute($response);
         }
     }
 
@@ -240,17 +240,6 @@ class Request
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Return 404 response.
-     */
-    public function noRoute()
-    {
-        $response = Application::env()->getResponse();
-
-        $response->setHttpCode(404);
-        $response->dispatch();
     }
 
     /**
@@ -296,6 +285,13 @@ class Request
     public function getFrontName()
     {
         return $this->frontName;
+    }
+
+    public function noRoute($response)
+    {
+        $controller = Application::objectManager()->get('\Jcode\Router\Front\Controller', [$this, $response]);
+
+        $controller->noRoute();
     }
 
     /**
