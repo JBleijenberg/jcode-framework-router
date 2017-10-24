@@ -102,22 +102,24 @@ class Request
          */
         list($this->frontName, $this->controller, $this->action) = $routeArray;
 
-        unset($routeArray[0]);
-        unset($routeArray[1]);
-        unset($routeArray[2]);
+        if (count($routeArray) > 3) {
+            unset($routeArray[0]);
+            unset($routeArray[1]);
+            unset($routeArray[2]);
 
-        if (!empty($routeArray)) {
-            $args = array_values($routeArray);
-            $name = null;
+            if (!empty($routeArray)) {
+                $args = array_values($routeArray);
+                $name = null;
 
-            if (count($args) === 1) {
-                $this->get = $args;
-            } else {
-                foreach ($args as $key => $value) {
-                    if ($key%2 == 0) {
-                        $name = $value;
-                    } else {
-                        $this->get[$name] = $value;
+                if (count($args) === 1) {
+                    $this->get = $args;
+                } else {
+                    foreach ($args as $key => $value) {
+                        if ($key % 2 == 0) {
+                            $name = $value;
+                        } else {
+                            $this->get[$name] = $value;
+                        }
                     }
                 }
             }
