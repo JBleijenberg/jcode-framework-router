@@ -24,6 +24,7 @@ namespace Jcode\Router\Front;
 
 use Jcode\Application;
 use Jcode\DataObject;
+use Jcode\Layout\Model\Reference;
 use Jcode\Model\Helper;
 use Jcode\Router\Http\Request;
 use Jcode\Router\Http\Response;
@@ -205,13 +206,14 @@ class Controller
 
     public function renderLayout()
     {
+        /** @var \Jcode\Layout\Model\Request $layout */
         if ($layout = $this->layout) {
             Application::register('current_layout', $layout);
 
-            $root = $layout->getReferenceCollection()->getItemByColumnValue('name', 'root');
+            $root = $layout->getReference('root');
 
-            if ($root instanceof DataObject) {
-                Application::objectManager()->get('\Jcode\Layout\Layout')->parseReference($root);
+            if ($root instanceof Reference) {
+                $root->render();
             }
         }
     }
