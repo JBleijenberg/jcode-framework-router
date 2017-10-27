@@ -40,12 +40,6 @@ class Request
     protected $action = 'index';
 
     /**
-     * @var \Jcode\Application\Config
-     * @inject \Jcode\Application\Config
-     */
-    protected $config;
-
-    /**
      * @inject \Jcode\Router\Rewrite
      * @var \Jcode\Router\Rewrite
      */
@@ -75,7 +69,7 @@ class Request
          * If there is no route (user is at / ), check if there is a default path configured
          */
         if (empty($route)) {
-            $route = $this->config->getDefaultRoute();
+            $route = Application::getConfig('default_route');
         }
 
         /**
@@ -137,7 +131,7 @@ class Request
      */
     public function dispatch(Response $response)
     {
-        if ($this->getConfig()->getForceSsl() && $this->getServer('REQUEST_SCHEME') == 'http') {
+        if (Application::getConfig('force_ssl') && $this->getServer('REQUEST_SCHEME') == 'http') {
             $location = sprintf('https://%s%s', $this->getServer('HTTP_HOST'), $this->getServer('REQUEST_URI'));
 
             $response->setLocation($location);
@@ -149,8 +143,9 @@ class Request
         
         /**
          * Load a module by frontname.
+         * @var Application\Module $module
          */
-        if ($module = $this->getConfig()->getModuleByFrontname($this->frontName)) {
+        if ($module = Application::getConfig()->getModuleByFrontname($this->frontName)) {
             $this->module = $module;
 
             /**
@@ -234,14 +229,6 @@ class Request
     public function getServer($key = null)
     {
         return ($key !== null) ? $_SERVER[$key] : $_SERVER;
-    }
-
-    /**
-     * @return \Jcode\Application\Config
-     */
-    public function getConfig()
-    {
-        return $this->config;
     }
 
     /**
