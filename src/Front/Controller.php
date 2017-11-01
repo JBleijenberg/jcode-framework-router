@@ -92,7 +92,7 @@ class Controller
     /**
      * @param null $key
      *
-     * @return null|DataObject
+     * @return null|DataObject|array
      */
     public function getPost($key = null)
     {
@@ -157,7 +157,7 @@ class Controller
      */
     public function getHelper() :Helper
     {
-        return Application::objectManager()->get('Jcode\Model\Helper');
+        return Application::getClass('Jcode\Model\Helper');
     }
 
     /**
@@ -198,7 +198,7 @@ class Controller
                 ? $path
                 : sprintf('%s::%s/%s', $module->getName(), $request->getController(), $request->getAction());
 
-            $this->layout = Application::objectManager()->get('\Jcode\Layout\Layout')->getLayout($element);
+            $this->layout = Application::getClass('\Jcode\Layout\Layout')->getLayout($element);
         }
 
         return $this->layout;

@@ -156,7 +156,7 @@ class Request
                     $class = rtrim($class, '\\') . '\\' . ucfirst($this->controller);
 
                     try {
-                        $controller = Application::objectManager()->get($class, [$this, $response]);
+                        $controller = Application::getClass($class, [$this, $response]);
 
                         if ($controller instanceof Controller) {
                             $action = $this->action . "Action";
@@ -165,7 +165,8 @@ class Request
                                 $this->route = sprintf('%s/%s/%s', $this->frontName, $this->controller, $this->action);
 
                                 /* @var \Jcode\DataObject $get */
-                                $get = Application::objectManager()->get('Jcode\DataObject');
+                                $get = Application::getClass('Jcode\DataObject');
+
                                 if (!empty($_GET)) {
                                     $get->importArray($_GET);
                                 } else {
@@ -173,14 +174,17 @@ class Request
                                 }
 
                                 /* @var \Jcode\DataObject $post */
-                                $post = Application::objectManager()->get('Jcode\DataObject');
+                                $post = Application::getClass('Jcode\DataObject');
                                 $post->importArray($_POST);
 
                                 /* @var \Jcode\DataObject $files */
-                                $files = Application::objectManager()->get('Jcode\DataObject');
+                                $files = Application::getClass('Jcode\DataObject');
                                 $files->importArray($_FILES);
 
                                 $controller->preDispatch($get, $post, $files);
+
+                                Application::register('current_controller', $controller);
+
                                 $controller->$action();
                                 $controller->postDispatch();
                             } else {
@@ -278,7 +282,7 @@ class Request
 
     public function noRoute($response)
     {
-        $controller = Application::objectManager()->get('\Jcode\Router\Front\Controller', [$this, $response]);
+        $controller = Application::getClass('\Jcode\Router\Front\Controller', [$this, $response]);
 
         $controller->noRoute();
     }

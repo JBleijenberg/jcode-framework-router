@@ -43,8 +43,8 @@ class Front
 
     public function dispatch()
     {
-        $this->response = Application::objectManager()->get('Jcode\Router\Http\Response');
-        $this->request = Application::objectManager()->get('Jcode\Router\Http\Request');
+        $this->response = Application::getClass('Jcode\Router\Http\Response');
+        $this->request = Application::getClass('Jcode\Router\Http\Request');
 
         $this->request->buildHttpRequest($this->response);
 
