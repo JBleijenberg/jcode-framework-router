@@ -96,7 +96,11 @@ class Controller
      */
     public function getPost($key = null)
     {
-        return $this->post->getData($key);
+        if ($key !== null) {
+            return $this->post->getData($key);
+        }
+
+        return $this->post->getAllData();
     }
 
     /**

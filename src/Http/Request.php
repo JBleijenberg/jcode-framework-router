@@ -88,13 +88,15 @@ class Request
             $route = current(explode('?', $route));
         }
 
-        $routeArray = array_pad(array_filter(explode('/', $route)), 3, 'index');
+        $routeArray = array_values(
+            array_pad(array_filter(explode('/', $route)), 3, 'index')
+        );
 
         /**
          * Chop up the route into frontname, controller and action. Replace blanks by 'index'
          * E.G: /my/page/ would create a route of /my/page/index
          */
-        list($this->frontName, $this->controller, $this->action) = $routeArray;
+        [$this->frontName, $this->controller, $this->action] = $routeArray;
 
         if (count($routeArray) > 3) {
             unset($routeArray[0]);
@@ -140,7 +142,7 @@ class Request
 
             return;
         }
-        
+
         /**
          * Load a module by frontname.
          * @var Application\Module $module
