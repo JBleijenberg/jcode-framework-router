@@ -125,7 +125,7 @@ class Controller
         return $this->params->getData($key);
     }
 
-    public function getFirstParam() :string
+    public function getFirstParam() :?string
     {
         return $this->params->getData(0);
     }

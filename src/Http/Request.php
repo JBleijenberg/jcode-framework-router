@@ -177,6 +177,11 @@ class Request
 
                                 /* @var \Jcode\DataObject $post */
                                 $post = Application::getClass('Jcode\DataObject');
+
+                                foreach ($_POST as $key => $value) {
+                                    $method = Application\Config::convertStringToMethod($key);
+                                    $post->$method($value);
+                                }
                                 $post->importArray($_POST);
 
                                 /* @var \Jcode\DataObject $files */
