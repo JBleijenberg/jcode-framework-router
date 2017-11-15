@@ -25,7 +25,7 @@ namespace Jcode\Router\Front;
 use Jcode\Application;
 use Jcode\DataObject;
 use Jcode\Layout\Model\Reference;
-use Jcode\Model\Helper;
+use Jcode\Helper;
 use Jcode\Router\Http\Request;
 use Jcode\Router\Http\Response;
 
@@ -156,12 +156,12 @@ class Controller
     /**
      * Get helper
      *
-     * @return object|\Jcode\Model\Helper
+     * @return object|\Jcode\Helper
      * @throws \Exception
      */
     public function getHelper() :Helper
     {
-        return Application::getClass('Jcode\Model\Helper');
+        return Application::getClass('Jcode\Helper');
     }
 
     /**
