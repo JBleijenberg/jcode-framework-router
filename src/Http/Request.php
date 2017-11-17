@@ -289,6 +289,7 @@ class Request
 
     public function noRoute($response)
     {
+        /** @var Controller $controller */
         $controller = Application::getClass('\Jcode\Router\Front\Controller', [$this, $response]);
 
         $controller->noRoute();

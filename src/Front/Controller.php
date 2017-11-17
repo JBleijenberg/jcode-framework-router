@@ -146,6 +146,7 @@ class Controller
         $this->renderLayout();
 
         $this->getResponse()->setHttpCode(404);
+        $this->getResponse()->dispatch();
     }
 
     public function translate() :string
