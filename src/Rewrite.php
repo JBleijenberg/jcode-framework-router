@@ -23,6 +23,7 @@
 namespace Jcode\Router;
 
 use \Exception;
+use Jcode\Application;
 
 class Rewrite
 {
@@ -46,6 +47,12 @@ class Rewrite
      */
     public function addRewrite($source, $destination, $grace = true)
     {
+        if (($cache = Application::getConfig()->getCacheInstance())) {
+            if ($cache->exists('url.rewrites')) {
+                $this->rewrites = unserialize($cache->get('url.rewrites'));
+            }
+        }
+
         if ($grace === true) {
             $this->rewrites[$source] = $destination;
         } else {
@@ -54,6 +61,10 @@ class Rewrite
             } else {
                 throw new Exception("An url rewrite for '{$source}' already exists'");
             }
+        }
+
+        if (($cache = Application::getConfig()->getCacheInstance())) {
+            $cache->set('url.rewrites', serialize($this->rewrites));
         }
 
         return $this;
@@ -69,6 +80,12 @@ class Rewrite
     public function getRewrite($source)
     {
         $urlRewrite = null;
+
+        if (($cache = Application::getConfig()->getCacheInstance())) {
+            if ($cache->exists('url.rewrites')) {
+                $this->rewrites = unserialize($cache->get('url.rewrites'));
+            }
+        }
 
         foreach ($this->rewrites as $rewrite => $destination) {
             if (preg_match("#^{$rewrite}$#", $source, $matches)) {

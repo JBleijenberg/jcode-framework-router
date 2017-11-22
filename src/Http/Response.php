@@ -22,6 +22,8 @@
  */
 namespace Jcode\Router\Http;
 
+use Jcode\Application;
+
 class Response
 {
 
@@ -108,6 +110,10 @@ class Response
     public function dispatch()
     {
         header($this->contentType, true, $this->httpCode);
+
+        if (($config = Application::getConfig('cache'))) {
+            header('Cache-Control: public, max-age=' . $config->getHeaders()->getMaxAge());
+        }
 
         if (!empty($this->location)) {
             header("Location: {$this->location}");
