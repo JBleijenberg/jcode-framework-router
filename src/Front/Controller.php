@@ -247,4 +247,18 @@ class Controller
     {
         $this->getResponse()->dispatch();
     }
+
+    /**
+     * Check if current request is an AJAX call
+     *
+     * @return bool
+     */
+    public function isXmlHttpRequest() :bool
+    {
+        if (($httpx = $this->getRequest()->getServer('HTTP_X_REQUESTED_WITH'))) {
+            return (strtolower($httpx) == 'xmlhttprequest');
+        }
+
+        return false;
+    }
 }

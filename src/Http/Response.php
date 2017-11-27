@@ -111,7 +111,7 @@ class Response
     {
         header($this->contentType, true, $this->httpCode);
 
-        if (($config = Application::getConfig('cache'))) {
+        if (($config = Application::getConfig('cache')) && $config->getEnabled() === true) {
             header('Cache-Control: public, max-age=' . $config->getHeaders()->getMaxAge());
         }
 
