@@ -121,4 +121,9 @@ class Response
 
         return $this;
     }
+
+    public function addHeader($header)
+    {
+        header($header);
+    }
 }
