@@ -54,6 +54,8 @@ class Response
      */
     protected $contentType = 'Content-Type: text/html';
 
+    protected $headers = [];
+
     /**
      * Set new http response code;
      *
@@ -111,6 +113,10 @@ class Response
     {
         header($this->contentType, true, $this->httpCode);
 
+        foreach ($this->headers as $header) {
+            header($header);
+        }
+
         if (($config = Application::getConfig('cache')) && $config->getEnabled() === true) {
             header('Cache-Control: public, max-age=' . $config->getHeaders()->getMaxAge());
         }
@@ -124,6 +130,6 @@ class Response
 
     public function addHeader($header)
     {
-        header($header);
+        $this->headers[] = $header;
     }
 }
