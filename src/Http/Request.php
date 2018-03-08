@@ -164,7 +164,7 @@ class Request
                             $action = $this->action . "Action";
 
                             if (method_exists($controller, $action)) {
-                                $this->route = sprintf('%s/%s/%s', $this->frontName, $this->controller, $this->action);
+                                $this->route = sprintf('/%s/%s/%s', $this->frontName, $this->controller, $this->action);
 
                                 /* @var \Jcode\DataObject $get */
                                 $get = Application::getClass('Jcode\DataObject');
@@ -206,9 +206,9 @@ class Request
                             $this->noRoute($response);
                         }
                     } catch (Exception $e) {
-                        Application::logException($e);
-
                         $this->noRoute($response);
+
+                        Application::logException($e);
                     }
                 } else {
                     Application::log('Module router is defined, but no controller class is set');

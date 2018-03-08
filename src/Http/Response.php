@@ -33,6 +33,8 @@ class Response
 
     protected $parameterPrefix = '?';
 
+    protected $body;
+
     /**
      * Http response code
      *
@@ -68,6 +70,13 @@ class Response
         if (intval($code)) {
             $this->httpCode = $code;
         }
+
+        return $this;
+    }
+
+    public function setBody($body)
+    {
+        $this->body = $body;
 
         return $this;
     }
@@ -123,6 +132,10 @@ class Response
 
         if (!empty($this->location)) {
             header("Location: {$this->location}");
+        }
+
+        if ($this->body) {
+            echo $this->body;
         }
 
         return $this;
